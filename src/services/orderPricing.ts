@@ -1,7 +1,5 @@
 import type { OrderProductInput } from "../types";
 
-// Keep two-decimal monetary values inside JavaScript's safe integer range when
-// represented as cents.
 export const MAX_ORDER_TOTAL = Math.floor(Number.MAX_SAFE_INTEGER / 100);
 
 export class OrderTotalOutOfRangeError extends RangeError {
@@ -24,7 +22,11 @@ export function calculateOrderTotal(
 
     const nextTotal = sum + price * product.quantity;
 
-    if (!Number.isFinite(nextTotal) || nextTotal < 0 || nextTotal > MAX_ORDER_TOTAL) {
+    if (
+      !Number.isFinite(nextTotal) ||
+      nextTotal < 0 ||
+      nextTotal > MAX_ORDER_TOTAL
+    ) {
       throw new OrderTotalOutOfRangeError();
     }
 
